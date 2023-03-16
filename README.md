@@ -1,6 +1,6 @@
 # Blueshift Coding Exercise
 
-This project was bootstrapped with [Create React App] using typescript.
+This project was bootstrapped with React using typescript.
 
 Hosted: https://singular-kleicha-1c14a2.netlify.app/
 
