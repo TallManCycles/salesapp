@@ -5,33 +5,81 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #f5f5f5;
   padding: 2rem;
 }
 
-button:hover {
-  background-color: #0062cc;
+.icon {
+  width: 50px;
+  height: 50px;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.dataEntry {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.btn:hover {
+  background-color: #007bff;
 }
 
 textarea {
-  width: 50%;
-  margin: 2rem 0;
+  width: 100%;
+  max-width: 800px;
+  margin: 1rem 0;
   padding: 1rem;
   font-size: 1rem;
   border: 1px solid #ced4da;
   border-radius: 4px;
   background-color: #fff;
+  resize: vertical;
+  min-height: 150px;
 }
 
 .formData {
+  width: 100%;
+  max-width: 800px;
   text-align: left;
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.formData p {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.formData label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.formData input[type="radio"],
+.formData input[type="number"] {
+  margin-left: 0.5rem;
+}
+
+.formData input[type="radio"]:first-child {
+  margin-left: 0;
 }
 
 .btn {
-  padding: 1rem 1rem;
+  padding: 1rem 2rem;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -39,11 +87,6 @@ textarea {
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  margin: 10px;
-}
-
-.btn:hover {
-  background-color: #0062cc;
 }
 
 /* Responsive styles */
@@ -55,5 +98,10 @@ textarea {
   
   textarea {
     margin: 1rem 0;
+  }
+
+  .dataEntry {
+    flex-direction: column;
+    align-items: center;
   }
 }

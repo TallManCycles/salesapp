@@ -2,7 +2,8 @@ import React from 'react';
 import {useState} from 'react';
 import './App.css';
 import ReactFileReader from 'react-file-reader';
-import Algorithms from './components/data/Algorithms';
+import Algorithms from './data/Algorithms';
+import upload from './img/upload.png';
 
 function App() {
 
@@ -19,36 +20,44 @@ function App() {
 
     // if the csvData is empty, this means that the csv data must be in the input, and the user hasn't uploaded a csv file.
     if (csvData.length === 0) {
-      readCSVText();
+       let data: string[] = readCSVText();
+       selectAlgorithm(data);
+    } else {
+      selectAlgorithm(csvData);
     }
+  }
 
-    if (csvData.length > 0) {
+  // selects the algorithm to use based on the user selection
+  function selectAlgorithm(data: string[]) {
+    if (data.length > 0) {
       if (algorithm === 'movingaverage') {
-        const result = Algorithms.movingAverage(csvData, period);
+        const result = Algorithms.movingAverage(data, period);
         SetResult(result);
       } else if (algorithm === 'singleexponentialsmoothing') {
-        const result = Algorithms.singleExponential(csvData,period,alpha);
+        const result = Algorithms.singleExponential(data, period, alpha);
         SetResult(result);
       } else {
         alert('Please select an algorithm');
       }
-
-      console.log(csvData);
     } else {
       alert('Please upload a CSV file or enter CSV data');
     }
   }
 
   // reads the csv values from the user input
-  function readCSVText() {
+  function readCSVText(): string[] {
+
+    let csvArray: string[] = [];
+
     const csvText = document.querySelector('textarea')?.value;
 
     if (csvText) {
-      const csvArray = csvText.split(',').map((value) => value.trim());
+      csvArray = csvText.split(',').map((value) => value.trim());
       SetCsvData(csvArray);
-      console.log(csvArray);
+      return csvArray;
     } else {
       alert('Please enter CSV data');
+      return csvArray;
     }
   }
 
@@ -85,13 +94,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Sales Data App</h1>
+      <h1>Sales Data Calculations</h1>
 
-      <textarea rows={4} placeholder={'Enter CSV data'} />
+      <div className='dataEntry'>
+        <textarea rows={3} placeholder={'Enter CSV data or upload using the button below:'} />
 
-      <ReactFileReader handleFiles={handleFiles} fileTypes='.csv'>
-        <button className='btn'>Upload CSV File</button>
-      </ReactFileReader>
+        <ReactFileReader handleFiles={handleFiles} fileTypes='.csv'>
+          <button className='upload'>
+            <img className='icon' src={upload} alt='Upload CSV File' />
+          </button>
+        </ReactFileReader>
+
+        {csvData.length > 0 && <p>Loaded Data: {csvData.toString()}</p>}
+      </div>
 
       <form className='formData'>
         <p>Choose your preffered algorithm:</p>
@@ -109,14 +124,13 @@ function App() {
         </label>
         <label>
           Alpha:
-          <input type="number" name="alpha" value={alpha} disabled={algorithm === 'movingaverage'} onChange={(e) => SetAlpha(Number(e.target.value))} />
+          <input type="number" name="alpha" min={0} value={alpha} disabled={algorithm === 'movingaverage'} onChange={(e) => SetAlpha(Number(e.target.value))} />
         </label>
       </form>
-
       
 
       <button className='btn' onClick={calculateValues}>Calculate</button>
-      <textarea rows={4} placeholder={'Result'} value={result.toString()} />
+      <textarea rows={4} placeholder={'Result'} defaultValue={result.toString()} />
 
     </div>
   );
